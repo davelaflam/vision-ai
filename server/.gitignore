@@ -1,0 +1,31 @@
+# Node modules
+node_modules/
+
+# Models
+mobilenet/
+model.*
+
+# Environment variables
+.env
+.vercel
+
+# Build outputs
+dist/
+build/
+
+# IDE specific files
+.idea/
+.vscode/
+
+# MacOS specific files
+.DS_Store
+
+# Miscellaneous
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Virtual Environments
+.venv
+.vision-ai

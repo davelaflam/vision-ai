@@ -1,0 +1,50 @@
+{
+  "name": "vision-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "author": "Dave-LaFlam",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "TS_NODE_PROJECT=tsconfig.json node --loader ts-node/esm src/index.mts",
+    "eslint": "eslint . --ignore-pattern node_modules --ignore-pattern dist",
+    "eslint-fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --fix ."
+  },
+  "keywords": [],
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@pinecone-database/pinecone": "4.1.0",
+    "@tensorflow-models/mobilenet": "2.1.1",
+    "@tensorflow/tfjs": "4.22.0",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0",
+    "@tensorflow/tfjs-node": "^4.22.0",
+    "@tensorflow/tfjs-node-gpu": "^4.22.0",
+    "@xenova/transformers": "2.17.2",
+    "body-parser": "1.20.3",
+    "canvas": "3.1.0",
+    "cors": "2.8.5",
+    "dotenv": "16.4.7",
+    "express": "4.21.2",
+    "flatted": "3.3.2",
+    "node-fetch": "3.3.2",
+    "openai": "4.69.0",
+    "sharp": "0.33.5",
+    "uuid": "11.0.5"
+  },
+  "devDependencies": {
+    "@types/cors": "2.8.17",
+    "@types/express": "4.17.21",
+    "@types/node": "18.19.75",
+    "@types/node-fetch": "2.6.12",
+    "@typescript-eslint/eslint-plugin": "8.24.0",
+    "@typescript-eslint/parser": "8.24.0",
+    "eslint": "9.20.1",
+    "eslint-config-prettier": "10.0.1",
+    "eslint-plugin-prettier": "5.2.3",
+    "ts-node": "10.9.2",
+    "tsconfig-paths": "4.2.0",
+    "typescript": "5.7.3"
+  }
+}
