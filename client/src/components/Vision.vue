@@ -230,18 +230,21 @@ const handleDetectImage = async (mode: string = 'detect') => {
 .video-container {
   position: relative;
   width: 100%;
-  max-width: 340px;
+  max-width: 340px; /* Adjust for mobile */
   aspect-ratio: 4 / 3;
   border: 1px solid #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* Prevents video from expanding beyond container */
 }
 
 .video-element {
   width: 100%;
   height: auto;
+  max-height: 240px; /* Limits height to avoid UI overlap */
   border-radius: 8px;
+  object-fit: cover; /* Ensures video doesn't stretch */
 }
 
 .detection-overlay {
@@ -257,5 +260,11 @@ const handleDetectImage = async (mode: string = 'detect') => {
   width: 90%;
   font-weight: 500;
   font-size: 12px;
+}
+
+@media screen and (max-width: 400px) {
+  .video-element {
+    max-height: 200px; /* Smaller height for small screens */
+  }
 }
 </style>
