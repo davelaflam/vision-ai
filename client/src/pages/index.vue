@@ -20,11 +20,16 @@ import VisionComponent from '@/components/Vision.vue'
 <style lang="scss">
 header .v-toolbar__content {
   height: 45px !important;
-}
 
-.v-toolbar-title,
-.v-toolbar-title__placeholder {
-  font-size: 18px;
-  font-weight: bold;
+  > .v-toolbar-title {
+    margin-inline-start: 0;
+  }
+
+  .v-toolbar-title,
+  .v-toolbar-title__placeholder {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
 }
 </style>
