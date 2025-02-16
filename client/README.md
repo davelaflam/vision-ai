@@ -81,6 +81,8 @@ pnpm run dev
 This will start a **Vite development server**.  
 By default, the application runs on **[http://localhost:5173](http://localhost:5173)**.
 
+<img src="public/visionAI-detection.png" alt="VisionAI-Detection" width="300">
+
 ---
 
 ### 🔥 Benefits of Enhanced Logging
