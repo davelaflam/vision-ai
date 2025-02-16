@@ -17,6 +17,9 @@ importers:
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
+      flatted:
+        specifier: 3.3.2
+        version: 3.3.2
       pinia:
         specifier: 3.0.1
         version: 3.0.1(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
