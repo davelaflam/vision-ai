@@ -13,7 +13,7 @@ The **VisionAI App Backend** is a machine learning-powered image recognition sys
 - **Node.js & TensorFlow.js**: Eliminates the need for Python dependencies by using TensorFlow.js in a Node.js environment.
 
 ### ⚙️ System Diagram
-![System Diagram](server/docs/images/vision-ai-diagram.webp)
+![System Diagram](server/docs/images/vision-ai-system-diagram.webp)
 ---
 
 ## 📂 Project Structure
