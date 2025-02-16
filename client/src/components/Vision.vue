@@ -15,19 +15,9 @@
       </v-row>
     </v-card>
 
-    <!-- Video & Detection Results -->
+    <!-- Video Display -->
     <div class="video-container">
       <video ref="video" autoplay playsinline v-show="videoActive" class="video-element"></video>
-
-      <!-- Detection Results as a floating overlay (only show after first detection) -->
-      <DetectionResults
-        v-if="detecting && detectionTriggered"
-        class="detection-overlay"
-        :detecting="detecting"
-        :loading="loading"
-        :detectedLabel="detectedLabel"
-        :confidence="confidence"
-      />
     </div>
 
     <!-- Image Capture Controls -->
@@ -38,6 +28,16 @@
       :captureImage="captureImage"
       :detectImage="handleDetectImage"
       :loading="loading"
+    />
+
+    <!-- Detection Results at the Bottom -->
+    <DetectionResults
+      v-if="detecting && detectionTriggered"
+      class="mt-3 w-100"
+      :detecting="detecting"
+      :loading="loading"
+      :detectedLabel="detectedLabel"
+      :confidence="confidence"
     />
   </v-container>
 </template>
@@ -59,7 +59,7 @@ const detecting = ref(false)
 const detectedLabel = ref('')
 const confidence = ref<number | null>(null)
 const loading = ref(false)
-const detectionTriggered = ref(false) // Ensure results only appear when "Capture & Detect" is clicked
+const detectionTriggered = ref(false) // Show results only after detection is triggered
 
 /**
  * Starts the camera stream and updates the video element.
@@ -122,57 +122,6 @@ const stopCamera = () => {
 }
 
 /**
- * Captures an image using the current video feed.
- */
-const captureImage = async (mode: string) => {
-  LoggerService.info(`Capturing image for mode: ${mode}`)
-
-  if (!video.value) {
-    LoggerService.warning('Attempted to capture image but video element is null.')
-    return
-  }
-
-  const canvas = document.createElement('canvas')
-  canvas.width = 224
-  canvas.height = 224
-  const ctx = canvas.getContext('2d')
-
-  if (!ctx) {
-    LoggerService.error('Failed to get canvas context for image capture.')
-    return
-  }
-
-  ctx.drawImage(video.value, 0, 0, canvas.width, canvas.height)
-  const base64Data = canvas.toDataURL('image/jpeg', 0.8).split(',')[1]
-
-  const payload = {
-    uri: `train-${Date.now()}`,
-    data: base64Data,
-    label: label.value,
-    user: 'testUser',
-    stage: mode,
-  }
-
-  LoggerService.debug(`Payload created: ${JSON.stringify(payload)}`)
-
-  try {
-    const response = await fetch(`${HOST}/${mode}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-
-    if (!response.ok) {
-      LoggerService.warning(`Training request failed: ${response.status} ${response.statusText}`)
-    } else {
-      LoggerService.info('Training request completed successfully.')
-    }
-  } catch (error) {
-    LoggerService.error('Error during training request:', error)
-  }
-}
-
-/**
  * Handles image detection and ensures results are shown only after the user clicks the button.
  */
 const handleDetectImage = async (mode: string = 'detect') => {
@@ -230,41 +179,25 @@ const handleDetectImage = async (mode: string = 'detect') => {
 .video-container {
   position: relative;
   width: 100%;
-  max-width: 340px; /* Adjust for mobile */
+  max-width: 340px;
   aspect-ratio: 4 / 3;
   border: 1px solid #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Prevents video from expanding beyond container */
 }
 
 .video-element {
   width: 100%;
   height: auto;
-  max-height: 240px; /* Limits height to avoid UI overlap */
+  max-height: 240px; /* Ensures it doesn’t overflow */
   border-radius: 8px;
-  object-fit: cover; /* Ensures video doesn't stretch */
-}
-
-.detection-overlay {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.8);
-  color: black;
-  padding: 6px 10px;
-  border-radius: 8px;
-  text-align: center;
-  width: 90%;
-  font-weight: 500;
-  font-size: 12px;
+  object-fit: cover;
 }
 
 @media screen and (max-width: 400px) {
   .video-element {
-    max-height: 200px; /* Smaller height for small screens */
+    max-height: 200px; /* Further restricts size for smaller screens */
   }
 }
 </style>
