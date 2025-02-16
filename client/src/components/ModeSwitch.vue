@@ -1,26 +1,36 @@
 <template>
-  <v-row>
-    <v-col cols="12" class="d-flex align-center">
+  <v-row align="center" justify="center">
+    <v-col cols="auto">
       <v-switch
         :model-value="detecting"
         @update:model-value="$emit('update:detecting', $event)"
         :disabled="!videoActive"
-        class="mr-2"
+        dense
+        hide-details
       ></v-switch>
-      <span class="mb-5">
-        {{ detecting ? "Detection Mode Enabled" : "Training Mode Enabled" }}
+    </v-col>
+    <v-col cols="auto" class="mode-label">
+      <span>
+        {{ detecting ? 'Detection Mode' : 'Training Mode' }}
       </span>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits } from 'vue'
 
 defineProps({
   detecting: Boolean,
   videoActive: Boolean,
-});
+})
 
-defineEmits(["update:detecting"]);
+defineEmits(['update:detecting'])
 </script>
+
+<style scoped>
+.mode-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+</style>
