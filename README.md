@@ -12,6 +12,8 @@ The **VisionAI App Backend** is a machine learning-powered image recognition sys
 - **Pinecone Integration**: Stores and retrieves high-dimensional embeddings for efficient similarity search.
 - **Node.js & TensorFlow.js**: Eliminates the need for Python dependencies by using TensorFlow.js in a Node.js environment.
 
+### ⚙️ System Diagram
+![System Diagram](server/docs/images/vision-ai-diagram.webp)
 ---
 
 ## 📂 Project Structure
@@ -74,9 +76,8 @@ vision-app/
 
 ## 🛠 Setup & Installation
 
-### 1️⃣ Clone the Repository
+### 1️⃣ After Cloning the Repository
 ```bash
-git clone https://github.com/your-repo/vision-ai.git
 cd vision-ai
 ```
 
