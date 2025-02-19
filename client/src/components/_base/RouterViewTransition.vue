@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject } from 'vue'
-import { RouteLocationNormalized } from 'vue-router'
+import type { RouteLocationNormalized } from 'vue-router'
 
 interface Props {
   /**
@@ -29,10 +29,9 @@ function getKey(route: RouteLocationNormalized) {
 <template>
   <router-view v-if="enableTransitions" v-slot="{ Component, route }">
     <transition :name="route.meta.transition || 'fade'" mode="out-in">
-      <!-- This div is required because <transition> requires a single children node -->
       <div
-          :key="getKey(route)"
-          :class="isRoot ? 'router-view-root-transition-wrapper' : 'router-view-transition-wrapper'"
+        :key="getKey(route)"
+        :class="isRoot ? 'router-view-root-transition-wrapper' : 'router-view-transition-wrapper'"
       >
         <component :is="Component" />
       </div>

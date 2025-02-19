@@ -12,13 +12,9 @@
         </v-col>
       </v-row>
 
-      <template v-else-if="detectedLabel">
-        <div class="mb-2">
-          Detected Labels: <strong>{{ detectedLabel }}</strong>
-        </div>
-        <div v-if="confidence !== null">
-          Confidence: <strong>{{ confidence }}</strong>
-        </div>
+      <template v-else>
+        <div v-if="detectedLabel"><strong>Detected Label:</strong> {{ detectedLabel }}</div>
+        <div v-if="confidence !== undefined"><strong>Confidence:</strong> {{ confidence }}%</div>
       </template>
     </v-card-text>
   </v-card>
@@ -29,7 +25,7 @@ import { defineProps } from 'vue'
 
 defineProps({
   detecting: Boolean,
-  loading: Boolean,
+  loading: Boolean, // ✅ Used correctly now
   detectedLabel: String,
   confidence: Number,
 })

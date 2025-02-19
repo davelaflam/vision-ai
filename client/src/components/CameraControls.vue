@@ -1,5 +1,5 @@
 <template>
-  <v-row :class="camera" align="center" justify="center" no-gutters>
+  <v-row :class="cameraClass" align="center" justify="center" no-gutters>
     <v-col cols="12" class="d-flex justify-center">
       <!-- Start Camera Chip -->
       <v-chip v-if="!videoActive" class="control-chip" color="success" @click="handleStartCamera">
@@ -17,12 +17,15 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, computed } from 'vue'
 import { LoggerService } from '@/_base/LoggerService'
 
-defineProps({
+const props = defineProps({
   videoActive: Boolean,
+  camera: String,
 })
+
+const cameraClass = computed(() => props.camera || '')
 
 const emit = defineEmits(['start-camera', 'stop-camera'])
 
@@ -47,7 +50,7 @@ const handleStopCamera = () => {
   }
 
   .stop-chip {
-    background-color: #d32f2f !important; /* Override for better visibility */
+    background-color: #d32f2f !important;
     color: #ffffff;
   }
 

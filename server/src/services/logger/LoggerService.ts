@@ -1,5 +1,5 @@
-import { toJSON } from 'flatted'
-import { DebugLevel, Log, LogType } from './types/index.js'
+import stringify from 'safe-stable-stringify'
+import { DebugLevel, Log, LogType } from '@/services/logger/types'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -8,7 +8,7 @@ export { DebugLevel }
 
 export class LoggerService {
   // set the debug logs if VERBOSE environment variable is present
-  static areDebugLogsOn: boolean = process.env.VERBOSE && process.env.VERBOSE === 'true' ? true : false
+  static areDebugLogsOn: boolean = process.env.VERBOSE === 'true'
   static logs: Log[] = []
 
   /**
@@ -124,15 +124,12 @@ export class LoggerService {
   }
 
   private static async _logData(data: string | object | [] = {}): Promise<boolean> {
-    if (!data) {
-      return false
-    }
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
+    if (!data || (typeof data === 'object' && Object.keys(data).length === 0)) {
       return false
     }
 
     try {
-      console.info(`     ${toJSON(data)}`)
+      console.info(`     ${stringify(data)}`)
     } catch (error) {
       console.error('Failed to log some data')
       return false

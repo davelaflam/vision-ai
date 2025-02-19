@@ -1,6 +1,6 @@
-import { DebugLevel } from './DebugLevel.js'
-import { ITrackable } from './ITrackable.js'
-import { LogType } from './LogType.js'
+import { DebugLevel } from '@/services/logger/types/DebugLevel'
+import { ITrackable } from '@/services/logger/types/ITrackable'
+import { LogType } from '@/services/logger/types/LogType'
 
 export interface ILog extends ITrackable {
   data?: any
