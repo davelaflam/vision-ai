@@ -17,8 +17,13 @@
       <v-btn
         class="w-100"
         color="secondary"
-        @click="captureImage('train')"
-        :disabled="!videoActive || !label.trim()"
+        @click="
+          () => {
+            console.log('🟢 Capture Image (Training) button clicked')
+            captureImage?.('train')
+          }
+        "
+        :disabled="!videoActive || !label?.trim()"
       >
         <v-icon left>mdi-camera</v-icon> Capture Image (Training)
       </v-btn>
@@ -30,7 +35,7 @@
       <v-btn
         class="w-100"
         color="green darken-1"
-        @click="detectImage('detect')"
+        @click="() => detectImage?.('detect')"
         :disabled="!videoActive || loading"
       >
         <v-icon left v-if="!loading">mdi-magnify</v-icon>
@@ -41,17 +46,35 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits } from 'vue'
+import { LoggerService } from '@/_base/LoggerService'
 
-defineProps({
+const props = defineProps({
   detecting: Boolean,
   videoActive: Boolean,
   label: String,
   captureImage: Function,
   detectImage: Function,
   loading: Boolean,
-});
+})
 
-// Emit updates to the label prop
-defineEmits(["update:label"]);
+const emit = defineEmits(['update:label'])
+
+const handleTrainClick = async () => {
+  LoggerService.info('🟢 Capture Image (Training) button clicked')
+  if (props.captureImage) {
+    await props.captureImage('train')
+  } else {
+    LoggerService.error('❌ captureImage function is undefined')
+  }
+}
+
+const handleDetectClick = async () => {
+  LoggerService.info('🟢 Capture Image (Detection) button clicked')
+  if (props.detectImage) {
+    await props.detectImage('detect')
+  } else {
+    LoggerService.error('❌ detectImage function is undefined')
+  }
+}
 </script>

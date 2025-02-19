@@ -13,7 +13,7 @@ export default defineConfig({
     vue(),
     vuetify({
       autoImport: true,
-      styles: 'sass', // ✅ Use "sass" instead of "expose"
+      styles: 'sass', // ✅ Fixed Vuetify styles
     }),
     Pages(),
     Layouts(),

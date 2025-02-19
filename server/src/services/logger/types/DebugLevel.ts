@@ -1,5 +1,3 @@
-// TODO: Convert to norobject syntaxt
-
 export enum DebugLevel {
   API = 'API',
   BASE = 'BASE',

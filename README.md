@@ -34,7 +34,7 @@ vision-app/
 │   ├── src/                        # Main backend logic
 │   │   ├── embeddings.ts           # Embedding management
 │   │   ├── handlers.ts             # Request handlers
-│   │   ├── index.mts               # Main entry point (ES module)
+│   │   ├── index.ts                # Main entry point (ES module)
 │   │   ├── pinecone.ts             # Pinecone database interactions
 │   │   ├── routes.ts               # API routes
 │   │   ├── utils.ts                # Helper functions

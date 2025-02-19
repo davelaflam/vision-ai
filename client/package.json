@@ -1,7 +1,8 @@
 {
-  "name": "vue-app",
+  "name": "vision-ai-app",
+  "description": "The VisionAI App is a machine learning-powered image recognition system that uses TensorFlow.js for feature extraction and Pinecone as a vector database for similarity search. The application allows users to train the model with new images and later detect objects by querying against the trained dataset.",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "author": "Dave-LaFlam",
   "scripts": {

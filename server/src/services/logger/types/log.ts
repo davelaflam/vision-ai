@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid'
 
-import { type ILog } from './ILog.ts'
-import { DebugLevel } from './DebugLevel.ts'
-import { LogType } from './LogType.ts'
+import { type ILog } from '@/services/logger/types/ILog'
+import { DebugLevel } from '@/services/logger/types/DebugLevel'
+import { LogType } from '@/services/logger/types/LogType'
 
 export class Log implements ILog {
   public createdAt?: Date | string

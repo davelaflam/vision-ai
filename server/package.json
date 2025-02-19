@@ -1,14 +1,13 @@
 {
-  "name": "vision-server",
+  "name": "vision-ai-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "The VisionAI App is a machine learning-powered image recognition system that uses TensorFlow.js for feature extraction and Pinecone as a vector database for similarity search. The application allows users to train the model with new images and later detect objects by querying against the trained dataset.",
   "main": "dist/index.js",
-  "type": "module",
   "author": "Dave-LaFlam",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "TS_NODE_PROJECT=tsconfig.json node --loader ts-node/esm src/index.mts",
+    "dev": "tsx -r tsconfig-paths/register src/index.ts",
+    "start": "node -r tsconfig-paths/register dist/index.js",
     "eslint": "eslint . --ignore-pattern node_modules --ignore-pattern dist",
     "eslint-fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --fix ."
   },
@@ -28,9 +27,10 @@
     "dotenv": "16.4.7",
     "express": "4.21.2",
     "flatted": "3.3.2",
-    "node-fetch": "3.3.2",
     "openai": "4.69.0",
+    "safe-stable-stringify": "^2.5.0",
     "sharp": "0.33.5",
+    "undici": "^7.3.0",
     "uuid": "11.0.5"
   },
   "devDependencies": {
@@ -45,6 +45,7 @@
     "eslint-plugin-prettier": "5.2.3",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
+    "tsx": "4.19.2",
     "typescript": "5.7.3"
   }
 }

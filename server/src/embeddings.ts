@@ -1,16 +1,11 @@
 import * as tf from '@tensorflow/tfjs-node'
 import * as mobilenet from '@tensorflow-models/mobilenet'
 import path from 'path'
-import { fileURLToPath } from 'url'
 import fs from 'fs'
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { LoggerService } from './services/logger/LoggerService.js'
-
-// ✅ Fix `__dirname` in ES module
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+import { LoggerService } from '@/services/logger/LoggerService'
 
 /**
  * Class for handling MobileNet model interactions.
@@ -29,6 +24,8 @@ class EmbeddingController {
    * Get the singleton instance of `EmbeddingController`
    */
   public static getInstance(): EmbeddingController {
+    LoggerService.debug('🔗 EmbeddingController.getInstance()')
+
     if (!EmbeddingController.instance) {
       EmbeddingController.instance = new EmbeddingController()
     }
@@ -73,6 +70,8 @@ class EmbeddingController {
    * Get the loaded MobileNet model instance.
    */
   public getModel(): tf.GraphModel | mobilenet.MobileNet {
+    LoggerService.debug('🔗 EmbeddingController.getModel()')
+
     if (!this.model) {
       throw new Error('❌ Model not loaded yet! Ensure `loadModel()` is called at startup.')
     }
@@ -83,6 +82,8 @@ class EmbeddingController {
    * Extracts feature embeddings from an input tensor.
    */
   public async getFeatureEmbeddings(tensor: tf.Tensor): Promise<number[]> {
+    LoggerService.debug('🔗 EmbeddingController.getFeatureEmbeddings()')
+
     if (!this.model) {
       throw new Error('❌ Model not loaded yet!')
     }

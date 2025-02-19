@@ -1,9 +1,9 @@
 import crypto from 'crypto'
 
-import UtilsController from './utils.js'
-import PineconeController from './pinecone.js'
-import EmbeddingController from './embeddings.js'
-import { LoggerService } from './services/logger/LoggerService.js'
+import EmbeddingController from '@/embeddings'
+import pineconeController from '@/pinecone'
+import UtilsController from '@/utils'
+import { LoggerService } from '@/services/logger/LoggerService'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -48,7 +48,7 @@ export const handleImage = async (req: any, res: any) => {
       await PineconeController.saveEmbedding([{ id, values: embedding, metadata: { label }, namespace: user }])
       return res.json({ message: 'Training success', id })
     } else if (stage === 'detect') {
-      const results = await PineconeController.queryEmbedding({ embedding, namespace: user, topK: 5 })
+      const results = await pineconeController.queryEmbedding({ embedding, namespace: user, topK: 5 })
       return res.json({ message: 'Detection success', results })
     }
 
@@ -74,7 +74,7 @@ export const handleDeleteUser = async (req: any, res: any) => {
 
   const hashedUser = md5(user)
   try {
-    await PineconeController.deleteNamespace({ namespace: hashedUser })
+    await pineconeController.deleteNamespace({ namespace: hashedUser })
     res.json({ message: 'success' })
   } catch (e) {
     console.error('❌ Error deleting namespace:', e)

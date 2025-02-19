@@ -1,21 +1,22 @@
-import { Pinecone } from '@pinecone-database/pinecone'
+import { Index, Pinecone, RecordMetadata } from '@pinecone-database/pinecone'
 import dotenv from 'dotenv'
 
-import { LoggerService } from './services/logger/LoggerService.js'
+import { LoggerService } from '@/services/logger/LoggerService'
 
 dotenv.config()
 
 /**
  * Class to manage Pinecone operations using Singleton pattern
  */
-class PineconeController {
+export class PineconeController {
   private static instance: PineconeController
   private pinecone: Pinecone
-  private index: ReturnType<Pinecone['Index']> | null = null
+  private static index: ReturnType<Pinecone['Index']> | null = null
   private readonly apiKey: string
   private readonly indexName: string
+  private index: Index<RecordMetadata> | undefined
 
-  private constructor() {
+  public constructor() {
     this.apiKey = process.env.PINECONE_API_KEY || ''
     this.indexName = process.env.PINECONE_INDEX_NAME || ''
 
@@ -73,9 +74,9 @@ class PineconeController {
   }
 
   /**
-   * 🚀 Save an embedding vector to Pinecone with namespace
-   * @param records Array of records with ID, values, and metadata
-   * @returns {Promise<any>}
+   * 🚀 Save an embedding vector to Pinecone
+   * @param records Array of records to save
+   * @returns {Promise<any>} Pinecone save response
    */
   public async saveEmbedding(
     records: Array<{ id: string; values: number[]; metadata: Record<string, any> }>,
@@ -93,10 +94,13 @@ class PineconeController {
         throw new Error('❌ ERROR: No valid records to upsert.')
       }
 
-      const response = await this.index.upsert(records)
-      LoggerService.info('✅ Pinecone Upsert Response:', JSON.stringify(response))
+      console.log('📡 Upserting to Pinecone:', records) // ✅ Debug log
+      LoggerService.info(`📡 Upserting to Pinecone: ${JSON.stringify(records, null, 2)}`) // ✅ Debug log
 
-      return response
+      await this.index.upsert(records)
+
+      LoggerService.info('✅ Pinecone Upsert Completed Successfully!')
+      return { success: true }
     } catch (error: any) {
       LoggerService.error('❌ Pinecone Save Failed:', error)
       return { error: 'Failed to save embedding', details: error.message }
@@ -104,11 +108,11 @@ class PineconeController {
   }
 
   /**
-   * 🚀 Query Pinecone for similar embeddings (Ensuring namespace works)
-   * @param embedding Array of numbers representing the embedding
+   * 🚀 Query Pinecone for similar embeddings
+   * @param embedding Embedding vector to query
    * @param namespace Namespace to filter by
-   * @param topK Number of similar embeddings to return
-   * @returns {Promise<any[]>}
+   * @param topK Number of top results to return
+   * @returns {Promise<any[]>} Array of matching records
    */
   public async queryEmbedding({
     embedding,
@@ -132,15 +136,14 @@ class PineconeController {
 
       LoggerService.info('🔄 Querying Pinecone with namespace:', namespace || 'default')
 
-      // ✅ Fix: `namespace` must be passed inside `filter`, not as a second argument
       const queryResponse = await this.index.query({
         vector: embedding,
         topK,
         includeMetadata: true,
-        filter: namespace ? { user: namespace } : undefined, // ✅ Correct way to filter by user
+        filter: namespace ? { user: namespace } : undefined,
       })
 
-      LoggerService.info('✅ Pinecone Query Response:', JSON.stringify(queryResponse, null, 2))
+      LoggerService.info('✅ Pinecone Query Response:', queryResponse)
       return queryResponse.matches || []
     } catch (error: any) {
       LoggerService.error('❌ Pinecone Query Failed:', error)
@@ -154,7 +157,7 @@ class PineconeController {
    * @returns {Promise<void>}
    */
   public async deleteNamespace(namespace: { namespace: string }): Promise<void> {
-    LoggerService.debug('🌲 PineconeController.deleteNamespace()')
+    LoggerService.debug('🌲 PineconeController.deleteNamespace()', namespace)
 
     try {
       if (!this.index) {
@@ -172,8 +175,24 @@ class PineconeController {
   }
 }
 
-// ✅ Singleton instance
-const pineconeManager = PineconeController.getInstance()
-await pineconeManager.initializeIndex()
+/**
+ * ✅ Ensure proper initialization before exporting
+ */
+const pineconeController = PineconeController.getInstance()
 
-export default pineconeManager
+async function initialize() {
+  try {
+    await pineconeController.initializeIndex()
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error)
+    LoggerService.error('❌ Pinecone Initialization Failed:', errorMessage)
+    process.exit(1)
+  }
+}
+
+initialize().catch((err) => {
+  LoggerService.error('❌ Uncaught error during Pinecone initialization:', err)
+  process.exit(1)
+})
+
+export default pineconeController
