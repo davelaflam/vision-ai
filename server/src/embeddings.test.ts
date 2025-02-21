@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs-node'
 import * as mobilenet from '@tensorflow-models/mobilenet'
-import fs from 'fs'
+
 import EmbeddingController from '@/embeddings'
 import { LoggerService } from '@/services/logger/LoggerService'
 
