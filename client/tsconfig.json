@@ -10,7 +10,7 @@
     /* Vue & TS support */
     "jsx": "preserve",
     "noEmit": true,
-    "types": ["vue", "vuetify"],
+    "types": ["jest", "vue", "vuetify"],
 
     /* Import resolution */
     "moduleResolution": "bundler",
@@ -25,5 +25,5 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "eslint.config.js"]
 }

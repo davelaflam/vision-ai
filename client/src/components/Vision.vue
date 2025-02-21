@@ -1,46 +1,6 @@
-<template>
-  <v-container fluid class="d-flex flex-column align-center px-2">
-    <!-- Camera Controls & Mode Switch -->
-    <v-card class="mb-2 w-100 px-2 py-1" theme="dark" elevation="2">
-      <v-row align="center" justify="center">
-        <v-col cols="6" class="d-flex justify-center">
-          <CameraControls :videoActive="videoActive" @start-camera="startCamera" @stop-camera="stopCamera" />
-        </v-col>
-        <v-col cols="6" class="d-flex justify-center">
-          <ModeSwitch v-model:detecting="detecting" :videoActive="videoActive" />
-        </v-col>
-      </v-row>
-    </v-card>
-
-    <!-- Video Display -->
-    <div class="video-container">
-      <video ref="video" autoplay playsinline v-show="videoActive" class="video-element"></video>
-    </div>
-
-    <!-- Image Capture Controls -->
-    <ImageCapture
-      :detecting="detecting"
-      :videoActive="videoActive"
-      v-model:label="label"
-      :captureImage="handleTrainImage"
-      :detectImage="handleDetectImage"
-      :loading="loading"
-    />
-
-    <!-- Detection Results -->
-    <DetectionResults
-      v-if="detecting || loading"
-      class="mt-3 w-100"
-      :detecting="detecting"
-      :loading="loading"
-      :detectedLabel="detectedLabel"
-      :confidence="confidence"
-    />
-  </v-container>
-</template>
-
 <script lang="ts" setup>
 import { ref, nextTick } from 'vue'
+
 import { LoggerService } from '@/_base/LoggerService'
 import CameraControls from '@/components/CameraControls.vue'
 import ModeSwitch from '@/components/ModeSwitch.vue'
@@ -239,6 +199,46 @@ const handleDetectImage = async (mode: string = 'detect') => {
   }
 }
 </script>
+
+<template>
+  <v-container fluid class="d-flex flex-column align-center px-2">
+    <v-card class="mb-2 w-100 px-2 py-1" theme="dark" elevation="2">
+      <v-row align="center" justify="center">
+        <v-col cols="6" class="d-flex justify-center">
+          <CameraControls :videoActive="videoActive" @start-camera="startCamera" @stop-camera="stopCamera" />
+        </v-col>
+        <v-col cols="6" class="d-flex justify-center">
+          <ModeSwitch v-model:detecting="detecting" :videoActive="videoActive" />
+        </v-col>
+      </v-row>
+    </v-card>
+
+    <!-- Video Display -->
+    <div class="video-container">
+      <video v-show="videoActive" ref="video" autoplay playsinline class="video-element"></video>
+    </div>
+
+    <!-- Image Capture Controls -->
+    <ImageCapture
+      v-model:label="label"
+      :detecting="detecting"
+      :videoActive="videoActive"
+      :captureImage="handleTrainImage"
+      :detectImage="handleDetectImage"
+      :loading="loading"
+    />
+
+    <!-- Detection Results -->
+    <DetectionResults
+      v-if="detecting || loading"
+      class="mt-3 w-100"
+      :detecting="detecting"
+      :loading="loading"
+      :detectedLabel="detectedLabel"
+      :confidence="confidence"
+    />
+  </v-container>
+</template>
 
 <style scoped lang="scss">
 .video-container {
