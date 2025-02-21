@@ -4,12 +4,12 @@ import { fetch } from 'undici'
 import * as tf from '@tensorflow/tfjs-node'
 import dotenv from 'dotenv'
 
-dotenv.config()
-
 import EmbeddingController from '@/embeddings'
 import pineconeController from '@/pinecone'
 import utils from '@/utils'
 import { LoggerService } from '@/services/logger/LoggerService'
+
+dotenv.config()
 
 const pineconeDimensions = process.env.PINECONE_DIMENSIONS || 768
 const pineconeIndexDimensions = Number(pineconeDimensions)
