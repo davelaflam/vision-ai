@@ -12,7 +12,7 @@ export class LoggerService {
   static logs: Log[] = []
 
   /**
-   * @description debug log
+   * @description debug log (Instance)
    * @param title the title of the log message.
    * @param data optional data object to print out.
    * @param level the service level of the log.
@@ -20,44 +20,44 @@ export class LoggerService {
    */
   public async debug(
     title: string,
-    data: string | object | [] = {},
+    data: string | object | [] | undefined | null = {},
     level: DebugLevel = DebugLevel.SERVICE,
   ): Promise<boolean> {
     return await LoggerService.debug(title, data, level)
   }
 
   /**
-   * @description error log
+   * @description error log (Instance)
    * @param title the title of the log message
    * @param data optional data
    * @memberof LoggerService
    */
-  public async error(title: string, data: string | object | [] = {}): Promise<boolean> {
+  public async error(title: string, data: string | object | [] | undefined | null = {}): Promise<boolean> {
     return await LoggerService.error(title, data)
   }
 
   /**
-   * @description info log
+   * @description info log (Instance)
    * @param title the title of the log.
    * @param data some optional data.
    * @memberof LoggerService
    */
-  public async info(title: string, data: string | object | [] = {}): Promise<boolean> {
+  public async info(title: string, data: string | object | [] | undefined | null = {}): Promise<boolean> {
     return await LoggerService.info(title, data)
   }
 
   /**
-   * @description warning log. Meaning that it's not a disaster but weird and should be investigated.
+   * @description warning log (Instance)
    * @param title the title of the log message.
    * @param data optional data object to print out.
    * @memberof LoggerService
    */
-  public async warning(title: string, data: string | object | [] = {}): Promise<boolean> {
+  public async warning(title: string, data: string | object | [] | undefined | null = {}): Promise<boolean> {
     return LoggerService.warning(title, data)
   }
 
   /**
-   * @description debug log
+   * @description debug log (Static)
    * @param title the title of the log
    * @param data some optional data.
    * @param level the service level of the log.
@@ -65,7 +65,7 @@ export class LoggerService {
    */
   public static async debug(
     title: string,
-    data: string | object | [] = {},
+    data: string | object | [] | undefined | null = {},
     level: DebugLevel = DebugLevel.SERVICE,
   ): Promise<boolean> {
     if (!this.areDebugLogsOn) {
@@ -75,16 +75,19 @@ export class LoggerService {
     this.logs.push(new Log({ level, title, data, type: LogType.DEBUG }))
 
     console.log(`🐛 ${title}`)
-    return this._logData(data)
+
+    // Explicitly check the return value of _logData and return true regardless
+    await this._logData(data)
+    return true
   }
 
   /**
-   * @description error log
+   * @description error log (Static)
    * @param {string} title the title of the log message
    * @param {string|object} data additional data
    * @memberof LoggerService
    */
-  public static async error(title: string, data?: string | object | []): Promise<boolean> {
+  public static async error(title: string, data?: string | object | [] | undefined | null): Promise<boolean> {
     this.logs.push(new Log({ title, data, type: LogType.ERROR }))
 
     console.error(`🆘 ${title}`)
@@ -94,12 +97,12 @@ export class LoggerService {
   }
 
   /**
-   * @description info log
+   * @description info log (Static)
    * @param {string} title the title of the log message
    * @param {string|object} data additional data
    * @memberof LoggerService
    */
-  public static async info(title: string, data?: string | object | []): Promise<boolean> {
+  public static async info(title: string, data?: string | object | [] | undefined | null): Promise<boolean> {
     this.logs.push(new Log({ title, data, type: LogType.INFO }))
 
     console.info(`ℹ️ ${title}`)
@@ -109,12 +112,12 @@ export class LoggerService {
   }
 
   /**
-   * @description warning log. Meaning that it's not a disaster but weird and should be investigated.
+   * @description warning log (Static)
    * @param title the title of the log message.
    * @param data optional data object to print out.
    * @memberof LoggerService
    */
-  public static async warning(title: string, data: string | object | [] = {}): Promise<boolean> {
+  public static async warning(title: string, data: string | object | [] | undefined | null = {}): Promise<boolean> {
     this.logs.push(new Log({ title, data, type: LogType.WARNING }))
 
     console.info(`⚠️ ${title}`)
@@ -123,8 +126,19 @@ export class LoggerService {
     return true
   }
 
-  private static async _logData(data: string | object | [] = {}): Promise<boolean> {
-    if (!data || (typeof data === 'object' && Object.keys(data).length === 0)) {
+  /**
+   * @description Handles the logging of data
+   * @param data optional data object to print out.
+   * @private
+   */
+  private static async _logData(data: string | object | [] | undefined | null = {}): Promise<boolean> {
+    // Check for empty object, empty array, undefined, or null
+    if (
+      data === undefined ||
+      data === null ||
+      (typeof data === 'object' && !Array.isArray(data) && Object.keys(data || {}).length === 0) ||
+      (Array.isArray(data) && data.length === 0)
+    ) {
       return false
     }
 

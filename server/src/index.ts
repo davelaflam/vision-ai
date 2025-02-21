@@ -8,7 +8,7 @@ dotenv.config()
 
 import EmbeddingController from '@/embeddings'
 import pineconeController from '@/pinecone'
-import utils from './utils.js'
+import utils from '@/utils'
 import { LoggerService } from '@/services/logger/LoggerService'
 
 const pineconeDimensions = process.env.PINECONE_DIMENSIONS || 768
@@ -25,23 +25,20 @@ const PORT = process.env.PORT || 3000
 /**
  * ✅ **Load ImageNet class labels from a remote URL**
  */
-async function loadClassLabels() {
+export async function loadClassLabels() {
   try {
     const response = await fetch(CLASS_INDEX_URL)
     classLabels = (await response.json()) as Record<string, any>
     LoggerService.info('✅ ImageNet Labels Loaded Successfully!')
   } catch (error) {
-    console.error('❌ Failed to load ImageNet class labels:', (error as Error).message)
+    LoggerService.error('❌ Failed to load ImageNet class labels:', (error as Error).message)
   }
 }
 
 /**
  * ✅ **Middleware to ensure the MobileNet model is loaded before handling requests.**
  */
-/**
- * Middleware to ensure the MobileNet model is loaded before handling requests.
- */
-function ensureModelLoaded(req: express.Request, res: express.Response, next: express.NextFunction) {
+export function ensureModelLoaded(req: express.Request, res: express.Response, next: express.NextFunction) {
   try {
     EmbeddingController.getModel()
     next()
@@ -49,33 +46,6 @@ function ensureModelLoaded(req: express.Request, res: express.Response, next: ex
     return res.status(500).json({ error: 'Model not loaded yet!' })
   }
 }
-
-/**
- * Train endpoint
- */
-app.post('/train', ensureModelLoaded, async (req, res) => {
-  LoggerService.info('🚀 Training started...')
-  try {
-    const { data, label, user } = req.body
-    if (!data || !label || !user) {
-      return res.status(400).json({ error: 'Missing data, label, or user!' })
-    }
-
-    const imageBuffer = Buffer.from(data, 'base64')
-    const tensor = utils.preprocessImage(imageBuffer)
-    LoggerService.info('✅ Image processed for training.')
-
-    let embedding = await EmbeddingController.getFeatureEmbeddings(tensor)
-
-    const upsertPayload = [{ id: `${user}-${label}-${Date.now()}`, values: embedding, metadata: { label, user } }]
-    await pineconeController.saveEmbedding(upsertPayload)
-
-    res.json({ message: 'Training completed successfully!' })
-  } catch (error: any) {
-    LoggerService.error('❌ Training error:', error.message)
-    res.status(500).json({ error: 'Training failed!', details: error.message })
-  }
-})
 
 /**
  * 🔍 **Detect endpoint to query embeddings from Pinecone.**
@@ -128,7 +98,6 @@ app.post('/detect', ensureModelLoaded, async (req, res) => {
       return res.json({ detectedLabel: 'Unknown Object', confidence: '0%' })
     }
 
-    // ✅ Ensure confidence does not exceed 100%
     const formattedResults = pineconeResults.map((match: any) => ({
       label: match.metadata.label,
       confidence: `${Math.min(match.score * 100, 100).toFixed(2)}%`,
@@ -136,24 +105,58 @@ app.post('/detect', ensureModelLoaded, async (req, res) => {
 
     res.json({ matches: formattedResults })
   } catch (error: any) {
-    console.error('❌ Detection error:', error)
+    LoggerService.error('❌ Detection error:', error)
     res.status(500).json({ error: 'Detection failed!', details: error.message })
   }
 })
 
 /**
+ * 🚀 **Train endpoint to save new embeddings to Pinecone.**
+ */
+app.post('/train', ensureModelLoaded, async (req, res) => {
+  LoggerService.info('🚀 Training started...')
+  try {
+    const { data, label, user } = req.body
+    if (!data || !label || !user) {
+      return res.status(400).json({ error: 'Missing data, label, or user!' })
+    }
+
+    const imageBuffer = Buffer.from(data, 'base64')
+    const tensor = utils.preprocessImage(imageBuffer)
+    LoggerService.info('✅ Image processed for training.')
+
+    let embedding = await EmbeddingController.getFeatureEmbeddings(tensor)
+
+    const upsertPayload = [{ id: `${user}-${label}-${Date.now()}`, values: embedding, metadata: { label, user } }]
+    await pineconeController.saveEmbedding(upsertPayload)
+
+    res.json({ message: 'Training completed successfully!' })
+  } catch (error: any) {
+    LoggerService.error('❌ Training error:', error.message)
+    res.status(500).json({ error: 'Training failed!', details: error.message })
+  }
+})
+
+let server: ReturnType<typeof app.listen> | undefined
+
+/**
  * 🚀 **Start the server without top-level await**
  */
-function startServer() {
+export function startServer() {
   Promise.all([EmbeddingController.loadModel(), loadClassLabels()])
     .then(() => {
-      app.listen(PORT, () => LoggerService.info(`🚀 Server running on port ${PORT}`))
+      server = app.listen(PORT, () => LoggerService.info(`🚀 Server running on port ${PORT}`))
     })
     .catch((error) => {
-      console.error('❌ Server failed to start:', error)
+      LoggerService.error('❌ Server failed to start:', error)
       process.exit(1)
     })
 }
 
-// ✅ Call start function
-startServer()
+// ✅ Conditionally start server if NOT in test environment
+if (process.env.NODE_ENV !== 'test') {
+  startServer()
+}
+
+// Exporting for testing
+export { app, server }

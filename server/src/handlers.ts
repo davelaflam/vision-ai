@@ -45,7 +45,7 @@ export const handleImage = async (req: any, res: any) => {
     if (stage === 'train') {
       const id = `${label}-${UtilsController.generateUniqueId()}`
       // @ts-ignore
-      await PineconeController.saveEmbedding([{ id, values: embedding, metadata: { label }, namespace: user }])
+      await pineconeController.saveEmbedding([{ id, values: embedding, metadata: { label }, namespace: user }])
       return res.json({ message: 'Training success', id })
     } else if (stage === 'detect') {
       const results = await pineconeController.queryEmbedding({ embedding, namespace: user, topK: 5 })

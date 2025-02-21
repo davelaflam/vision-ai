@@ -4,8 +4,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "CommonJS",
     "target": "ESNext",
     "outDir": "./dist",
     "rootDir": "./src",
@@ -13,7 +12,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "types": ["jest", "node"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

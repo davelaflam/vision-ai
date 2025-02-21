@@ -11,9 +11,9 @@ dotenv.config()
 export class PineconeController {
   private static instance: PineconeController
   private pinecone: Pinecone
-  private static index: ReturnType<Pinecone['Index']> | null = null
+  public static index: ReturnType<Pinecone['Index']> | null = null
   private readonly apiKey: string
-  private readonly indexName: string
+  private indexName: string
   private index: Index<RecordMetadata> | undefined
 
   public constructor() {
@@ -192,7 +192,7 @@ async function initialize() {
 
 initialize().catch((err) => {
   LoggerService.error('❌ Uncaught error during Pinecone initialization:', err)
-  process.exit(1)
+  throw new Error('Failed to initialize Pinecone')
 })
 
 export default pineconeController
