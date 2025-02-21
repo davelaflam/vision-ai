@@ -1,5 +1,19 @@
+<script lang="ts" setup>
+import { defineProps } from 'vue'
+
+defineProps({
+  detecting: Boolean,
+  loading: Boolean, // ✅ Used correctly now
+  detectedLabel: String,
+  confidence: Number,
+})
+</script>
+
 <template>
-  <v-card v-if="detecting" class="mb-4" elevation="2" theme="dark">
+  <v-card
+v-if="detecting"
+class="mb-4" elevation="2"
+theme="dark">
     <v-card-title>
       <span class="text-h6">Detection Results</span>
     </v-card-title>
@@ -19,14 +33,3 @@
     </v-card-text>
   </v-card>
 </template>
-
-<script lang="ts" setup>
-import { defineProps } from 'vue'
-
-defineProps({
-  detecting: Boolean,
-  loading: Boolean, // ✅ Used correctly now
-  detectedLabel: String,
-  confidence: Number,
-})
-</script>

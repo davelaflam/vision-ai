@@ -21,7 +21,7 @@ export class LoggerService {
   public async debug(
     title: string,
     data: string | object | [] = {},
-    level: DebugLevel = DebugLevel.SERVICE
+    level: DebugLevel = DebugLevel.SERVICE,
   ): Promise<boolean> {
     return await LoggerService.debug(title, data, level)
   }
@@ -66,7 +66,7 @@ export class LoggerService {
   public static async debug(
     title: string,
     data: string | object | [] = {},
-    level: DebugLevel = DebugLevel.SERVICE
+    level: DebugLevel = DebugLevel.SERVICE,
   ): Promise<boolean> {
     if (!this.areDebugLogsOn) {
       return true

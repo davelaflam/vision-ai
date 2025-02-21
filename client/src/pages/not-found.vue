@@ -5,6 +5,16 @@ meta:
   public: true
 </route>
 
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const retry = () => {
+  router.push('/')
+}
+</script>
+
 <template>
   <v-toolbar theme="dark" class="">
     <v-toolbar-title>VisionAI</v-toolbar-title>
@@ -24,16 +34,6 @@ meta:
     </v-btn>
   </v-container>
 </template>
-
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const retry = () => {
-  router.push('/')
-}
-</script>
 
 <style scoped lang="scss">
 /* Background Animation */
