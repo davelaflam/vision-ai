@@ -1,12 +1,12 @@
-import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin'
-import typescriptEslintParser from '@typescript-eslint/parser'
-import eslintPluginPrettier from 'eslint-plugin-prettier'
+const typescriptEslintPlugin = require('@typescript-eslint/eslint-plugin')
+const typescriptEslintParser = require('@typescript-eslint/parser')
+const eslintPluginPrettier = require('eslint-plugin-prettier')
 
-export default [
+module.exports = [
   {
-    files: ['**/*.ts', '**/*.js'], // Match TypeScript and JavaScript files
+    files: ['**/*.ts', '**/*.js'],
     ignores: [
-      'eslint.config.js', // ✅ Ignore ESLint's own config file
+      'eslint.config.js',
       '**/.DS_Store',
       '**/.env',
       '**/.env.example',
@@ -22,7 +22,7 @@ export default [
     languageOptions: {
       parser: typescriptEslintParser,
       parserOptions: {
-        project: './tsconfig.json', // Path to tsconfig.json
+        project: './tsconfig.json',
         tsconfigRootDir: process.cwd(),
         sourceType: 'module',
       },

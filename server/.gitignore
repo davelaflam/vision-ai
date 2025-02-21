@@ -12,6 +12,7 @@ model.*
 # Build outputs
 dist/
 build/
+coverage/
 
 # IDE specific files
 .idea/
