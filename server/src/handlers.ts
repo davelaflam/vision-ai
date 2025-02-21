@@ -1,10 +1,11 @@
 import crypto from 'crypto'
 
+import dotenv from 'dotenv'
+
 import EmbeddingController from '@/embeddings'
 import pineconeController from '@/pinecone'
 import UtilsController from '@/utils'
 import { LoggerService } from '@/services/logger/LoggerService'
-import dotenv from 'dotenv'
 dotenv.config()
 
 const md5 = (str: string) => crypto.createHash('md5').update(str).digest('hex')

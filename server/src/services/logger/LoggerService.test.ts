@@ -5,8 +5,6 @@ jest.mock('safe-stable-stringify', () => ({
 }))
 
 import { LoggerService } from '@/services/logger/LoggerService'
-import { DebugLevel } from '@/services/logger/types'
-import stringify from 'safe-stable-stringify'
 
 // Use require to properly import default export for mocking
 const stringifyMock = require('safe-stable-stringify').default

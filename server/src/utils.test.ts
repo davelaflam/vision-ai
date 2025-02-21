@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs-node'
+
 import utils from '@/utils'
-import { LoggerService } from '@/services/logger/LoggerService'
 
 jest.mock('@tensorflow/tfjs-node', () => ({
   node: {

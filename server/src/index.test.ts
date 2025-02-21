@@ -1,6 +1,8 @@
 import request from 'supertest'
+
 import EmbeddingController from '@/embeddings'
 import pineconeController from '@/pinecone'
+
 import { app, loadClassLabels } from './index'
 
 // Mock dependencies

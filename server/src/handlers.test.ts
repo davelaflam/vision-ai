@@ -27,11 +27,12 @@ jest.mock('@/pinecone', () => {
   }
 })
 
+import { Request, Response } from 'express'
+
 import { handleImage, handleDeleteUser } from '@/handlers'
 import EmbeddingController from '@/embeddings'
 import pineconeController from '@/pinecone'
 import UtilsController from '@/utils'
-import { Request, Response } from 'express'
 
 describe('Handlers', () => {
   let req: Partial<Request>

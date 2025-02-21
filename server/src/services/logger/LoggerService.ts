@@ -1,6 +1,7 @@
 import stringify from 'safe-stable-stringify'
-import { DebugLevel, Log, LogType } from '@/services/logger/types'
 import dotenv from 'dotenv'
+
+import { DebugLevel, Log, LogType } from '@/services/logger/types'
 
 dotenv.config()
 
@@ -145,7 +146,7 @@ export class LoggerService {
     try {
       console.info(`     ${stringify(data)}`)
     } catch (error) {
-      console.error('Failed to log some data')
+      console.error('Failed to log some data', error)
       return false
     }
 

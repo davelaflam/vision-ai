@@ -1,12 +1,13 @@
-import * as tf from '@tensorflow/tfjs-node'
-import * as mobilenet from '@tensorflow-models/mobilenet'
 import path from 'path'
 import fs from 'fs'
+
+import * as tf from '@tensorflow/tfjs-node'
+import * as mobilenet from '@tensorflow-models/mobilenet'
 import dotenv from 'dotenv'
-dotenv.config()
 
 import { LoggerService } from '@/services/logger/LoggerService'
 
+dotenv.config()
 /**
  * Class for handling MobileNet model interactions.
  */
