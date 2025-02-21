@@ -23,9 +23,12 @@ const CLASS_INDEX_URL = 'https://storage.googleapis.com/download.tensorflow.org/
 const PORT = process.env.PORT || 3000
 
 /**
- * ✅ **Load ImageNet class labels from a remote URL**
+ * Load ImageNet class labels from a remote URL
+ * @returns {Promise<void>}
  */
 export async function loadClassLabels() {
+  LoggerService.debug('🔍 Loading ImageNet class labels...')
+
   try {
     const response = await fetch(CLASS_INDEX_URL)
     classLabels = (await response.json()) as Record<string, any>
@@ -36,9 +39,15 @@ export async function loadClassLabels() {
 }
 
 /**
- * ✅ **Middleware to ensure the MobileNet model is loaded before handling requests.**
+ * Middleware to ensure the MobileNet model is loaded before handling requests
+ * @param req
+ * @param res
+ * @param next
+ * @returns {void}
  */
 export function ensureModelLoaded(req: express.Request, res: express.Response, next: express.NextFunction) {
+  LoggerService.debug('🔍 Checking if model is loaded...')
+
   try {
     EmbeddingController.getModel()
     next()
@@ -48,7 +57,8 @@ export function ensureModelLoaded(req: express.Request, res: express.Response, n
 }
 
 /**
- * 🔍 **Detect endpoint to query embeddings from Pinecone.**
+ * Detect endpoint to query embeddings from Pinecone.
+ * @returns {Promise<void>}
  */
 app.post('/detect', ensureModelLoaded, async (req, res) => {
   LoggerService.debug('/detect API endpoint')
@@ -111,10 +121,12 @@ app.post('/detect', ensureModelLoaded, async (req, res) => {
 })
 
 /**
- * 🚀 **Train endpoint to save new embeddings to Pinecone.**
+ * Train endpoint to save new embeddings to Pinecone.
+ * @returns {Promise<void>}
  */
 app.post('/train', ensureModelLoaded, async (req, res) => {
-  LoggerService.info('🚀 Training started...')
+  LoggerService.debug('/train API endpoint')
+
   try {
     const { data, label, user } = req.body
     if (!data || !label || !user) {
@@ -140,9 +152,12 @@ app.post('/train', ensureModelLoaded, async (req, res) => {
 let server: ReturnType<typeof app.listen> | undefined
 
 /**
- * 🚀 **Start the server without top-level await**
+ * Start the server without top-level await
+ * @returns {void}
  */
-export function startServer() {
+export function startServer(): void {
+  LoggerService.debug('🚀 Starting server...')
+
   Promise.all([EmbeddingController.loadModel(), loadClassLabels()])
     .then(() => {
       server = app.listen(PORT, () => LoggerService.info(`🚀 Server running on port ${PORT}`))

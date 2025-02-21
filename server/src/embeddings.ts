@@ -22,6 +22,7 @@ class EmbeddingController {
 
   /**
    * Get the singleton instance of `EmbeddingController`
+   * @returns {EmbeddingController}
    */
   public static getInstance(): EmbeddingController {
     LoggerService.debug('🔗 EmbeddingController.getInstance()')
@@ -33,7 +34,8 @@ class EmbeddingController {
   }
 
   /**
-   * 🚀 Load MobileNet Model
+   * Load MobileNet Model
+   * @returns {Promise<void>}
    */
   public async loadModel(): Promise<void> {
     LoggerService.debug('🔗 EmbeddingController.loadModel()')
@@ -68,6 +70,7 @@ class EmbeddingController {
 
   /**
    * Get the loaded MobileNet model instance.
+   * @returns {tf.GraphModel | mobilenet.MobileNet}
    */
   public getModel(): tf.GraphModel | mobilenet.MobileNet {
     LoggerService.debug('🔗 EmbeddingController.getModel()')
@@ -80,6 +83,8 @@ class EmbeddingController {
 
   /**
    * Extracts feature embeddings from an input tensor.
+   * @param {tf.Tensor} tensor - Input tensor to extract embeddings from.
+   * @returns {Promise<number[]>} - Array of feature embeddings.
    */
   public async getFeatureEmbeddings(tensor: tf.Tensor): Promise<number[]> {
     LoggerService.debug('🔗 EmbeddingController.getFeatureEmbeddings()')

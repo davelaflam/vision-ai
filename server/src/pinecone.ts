@@ -44,7 +44,7 @@ export class PineconeController {
   }
 
   /**
-   * 🚀 Initialize Pinecone Index
+   * Initialize Pinecone Index
    * @returns {Promise<void>}
    */
   public async initializeIndex(): Promise<void> {
