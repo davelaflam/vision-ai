@@ -139,7 +139,7 @@ describe('LoggerService', () => {
 
         const result = await LoggerService['_logData'](circularObject)
         expect(result).toBe(false)
-        expect(console.error).toHaveBeenCalledWith('Failed to log some data')
+        expect(console.error).toHaveBeenCalledWith('Failed to log some data', expect.any(Error))
       })
     })
   })
