@@ -167,7 +167,8 @@ For example, update your `package.json` scripts section to include:
     "lint:fix": "eslint . --fix",
     "start:pm2": "pm2 start ecosystem.config.cjs",
     "logs:pm2": "pm2 logs vision-ai-client-app",
-    "prod": "pnpm start:pm2 && pnpm logs:pm2",
+    "prod": "pnpm start:pm2",
+    "prod:logs": "pnpm start:pm2 && pnpm logs:pm2",
     "prod:stop": "pm2 stop vision-ai-client-app",
     "prod:restart": "pm2 restart vision-ai-client-app"
   }
@@ -182,7 +183,18 @@ After building the app, start production mode with:
 pnpm prod
 ```
 
-This command will start your client app using PM2, launching the Vite preview server on port 5174, and tailing the logs.
+This command will start your client app using PM2, launching the Vite preview server on port 5174.
+
+### 4️⃣ Start in Production Mode with Logs
+
+After building the app, start production mode with:
+
+```bash
+pnpm prod:logs
+```
+
+This command will start your client app using PM2, launch the Vite preview server on port 5174, and tail the logs.
+
 
 ---
 

@@ -13,7 +13,8 @@
     "lint:fix": "eslint . --fix",
     "start:pm2": "pm2 start ecosystem.config.cjs",
     "logs:pm2": "pm2 logs vision-ai-client-app",
-    "prod": "pnpm start:pm2 && pnpm logs:pm2",
+    "prod": "pnpm start:pm2",
+    "prod:logs": "pnpm start:pm2 && pnpm logs:pm2",
     "prod:stop": "pm2 stop vision-ai-client-app",
     "prod:restart": "pm2 restart vision-ai-client-app"
   },
