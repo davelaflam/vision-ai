@@ -1,5 +1,5 @@
 {
-  "name": "vision-ai-app",
+  "name": "vision-ai-server-app",
   "version": "1.0.0",
   "description": "The VisionAI App is a machine learning-powered image recognition system.",
   "main": "dist/index.js",
@@ -10,6 +10,11 @@
     "build": "tsc && tsc-alias",
     "postbuild": "node replace.config.js",
     "start": "node -r tsconfig-paths/register build/index.js",
+    "start:pm2": "pm2 start ecosystem.config.js",
+    "logs:pm2": "pm2 logs vision-ai-server-app",
+    "prod": "pnpm start:pm2 && pnpm logs:pm2",
+    "prod:stop": "pm2 stop vision-ai-server-app",
+    "prod:restart": "pm2 restart vision-ai-server-app",
     "lint": "eslint . --ignore-pattern node_modules --ignore-pattern dist",
     "lint:fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --fix .",
     "test": "NODE_ENV=test PORT=3001 pnpm jest --clearCache && pnpm jest --config jest.config.ts",
