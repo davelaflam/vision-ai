@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { handleImage, handleDeleteUser } from '@/handlers'
+import { handleImage, handleDeleteUser } from '@/handlers/handlers'
 
 const router = express.Router()
 

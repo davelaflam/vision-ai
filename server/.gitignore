@@ -27,6 +27,9 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# TypeScript Build Info
+**/*.tsbuildinfo
+
 # Virtual Environments
 .venv
 .vision-ai

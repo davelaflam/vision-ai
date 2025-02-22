@@ -1,5 +1,5 @@
 // Mock the entire modules at the top
-jest.mock('@/utils', () => ({
+jest.mock('../utils/UtilsController', () => ({
   __esModule: true,
   default: {
     preprocessImage: jest.fn(),
@@ -7,32 +7,35 @@ jest.mock('@/utils', () => ({
   },
 }))
 
-jest.mock('@/embeddings', () => ({
+jest.mock('../embeddings/EmbeddingsController', () => ({
   __esModule: true,
   default: {
     getFeatureEmbeddings: jest.fn(),
   },
 }))
 
-jest.mock('@/pinecone', () => {
-  const actualModule = jest.requireActual('@/pinecone')
+jest.mock('@/pinecone/PineconeController', () => {
+  const actualModule = jest.requireActual('@/pinecone/PineconeController')
   return {
     __esModule: true,
     ...actualModule,
     default: {
       ...actualModule.default,
-      saveEmbedding: jest.fn(), // Mock saveEmbedding
+      saveEmbedding: jest.fn(),
       queryEmbedding: jest.fn(),
     },
   }
 })
 
+
 import { Request, Response } from 'express'
 
-import { handleImage, handleDeleteUser } from '@/handlers'
-import EmbeddingController from '@/embeddings'
-import pineconeController from '@/pinecone'
-import UtilsController from '@/utils'
+import EmbeddingController from '../embeddings/EmbeddingsController'
+import pineconeController from '../pinecone/PineconeController'
+
+import UtilsController from '../utils/UtilsController'
+
+import { handleImage, handleDeleteUser } from './handlers'
 
 describe('Handlers', () => {
   let req: Partial<Request>
