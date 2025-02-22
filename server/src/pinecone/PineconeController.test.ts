@@ -1,12 +1,11 @@
-// Mock process.exit to prevent Jest from quitting
 jest.spyOn(process, 'exit').mockImplementation(((code?: number) => {
   console.error(`process.exit called with "${code}"`)
 }) as any)
 
-import { PineconeController } from '@/pinecone'
-import { LoggerService } from '@/services/logger/LoggerService'
+import { PineconeController } from './PineconeController'
+import { LoggerService } from '../services/logger'
 
-jest.mock('@/services/logger/LoggerService', () => ({
+jest.mock('../services/logger/LoggerService', () => ({
   LoggerService: {
     debug: jest.fn(),
     info: jest.fn(),

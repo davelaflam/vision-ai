@@ -4,7 +4,7 @@ jest.mock('safe-stable-stringify', () => ({
   default: jest.fn((data) => JSON.stringify(data)),
 }))
 
-import { LoggerService } from '@/services/logger/LoggerService'
+import { LoggerService } from './LoggerService'
 
 // Use require to properly import default export for mocking
 const stringifyMock = require('safe-stable-stringify').default

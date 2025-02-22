@@ -13,45 +13,6 @@ The **VisionAI App Backend** is a machine learning-powered image recognition sys
 - **Node.js & TensorFlow.js**: Eliminates the need for Python dependencies by using TensorFlow.js in a Node.js environment.
 
 ---
----
-
-## 📂 Project Structure
-
-```
-vision-app/
-├── server/                         # Backend (Node.js, TensorFlow.js, Pinecone)
-│   ├── services/                   # Core backend services
-│   │   ├── logger/                 # Logging service
-│   │   │   ├── LoggerService.ts    # Main logging utility
-│   │   │   ├── types/              # Logger type definitions
-│   │   │   │   ├── DebugLevel.ts   # Debugging levels
-│   │   │   │   ├── ILog.ts         # Logging interface
-│   │   │   │   ├── index.ts        # Type exports
-│   │   │   │   ├── ITrackable.ts   # Trackable entity interface
-│   │   │   │   ├── log.ts          # Log structure definition
-│   │   │   │   ├── LogType.ts      # Enum for log types
-│   ├── src/                        # Main backend logic
-│   │   ├── embeddings.ts           # Embedding management
-│   │   ├── handlers.ts             # Request handlers
-│   │   ├── index.ts                # Main entry point (ES module)
-│   │   ├── pinecone.ts             # Pinecone database interactions
-│   │   ├── routes.ts               # API routes
-│   │   ├── utils.ts                # Helper functions
-│   ├── .env                        # Environment variables
-│   ├── .env.example                # Environment variables
-│   ├── README.md                   # Backend documentation
-│   ├── dist                        # Dependencies & scripts
-│   ├── package.json                # Dependencies & scripts
-│   ├── pnpm-lock.json              # Dependencies & scripts
-│   ├── requirements.txt            # Dependencies & scripts
-│   ├── tsconfig.build.json         # Dependencies & scripts
-│   ├── tsconfig.json               # Dependencies & scripts
-│   ├── vercel.json                 # Dependencies & scripts
-│   └──
-└── 
-```
-
----
 
 ## 🛠 Setup & Installation
 

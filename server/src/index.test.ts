@@ -1,22 +1,22 @@
 import request from 'supertest'
 
-import EmbeddingController from '@/embeddings'
-import pineconeController from '@/pinecone'
+import EmbeddingController from './embeddings/EmbeddingsController'
+import pineconeController from './pinecone/PineconeController'
 
 import { app, loadClassLabels } from './index'
 
 // Mock dependencies
-jest.mock('@/embeddings', () => ({
+jest.mock('./embeddings/EmbeddingsController', () => ({
   getModel: jest.fn(),
   useCustomModel: true,
   getFeatureEmbeddings: jest.fn().mockResolvedValue([0.1, 0.2, 0.3]),
   loadModel: jest.fn().mockResolvedValue(true),
 }))
-jest.mock('@/pinecone', () => ({
+jest.mock('./pinecone/PineconeController', () => ({
   queryEmbedding: jest.fn().mockResolvedValue([]),
   saveEmbedding: jest.fn().mockResolvedValue(true),
 }))
-jest.mock('@/utils', () => ({
+jest.mock('./utils/UtilsController', () => ({
   preprocessImage: jest.fn().mockReturnValue('mockedTensor'),
   applySoftmax: jest.fn().mockReturnValue([0.1, 0.2, 0.3]),
 }))

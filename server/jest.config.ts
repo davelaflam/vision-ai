@@ -1,14 +1,16 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const config = {
+export default {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    moduleFileExtensions: ['js', 'ts'],
-    testMatch: ['**/*.test.ts'],
     moduleNameMapper: {
-        '@/(.*)': '<rootDir>/src/$1',
+        '^@/(.*)$': '<rootDir>/src/$1'
     },
-    clearMocks: true,
-    verbose: true,
+    moduleDirectories: ['node_modules', 'src'],
+    testMatch: [
+        '<rootDir>/src/**/*.(test|spec).(ts|js)',
+        '<rootDir>/tests/**/*.(test|spec).(ts|js)'
+    ],
+    testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/build/', '<rootDir>/dist/'],
+    transform: {
+        '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.jest.json' }]
+    }
 };
-exports.default = config;

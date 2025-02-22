@@ -1,26 +1,25 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
+    "outDir": "./build",
+    "rootDir": "./src",
     "module": "CommonJS",
     "target": "ESNext",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "allowJs": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "strict": true,
-    "types": ["jest", "node"]
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["src"],
   "exclude": [
-    "coverage",
-    "dist",
     "node_modules",
-    "eslint.config.js",
-    "jest.config.ts"
+    "build",
+    "dist",
+    "coverage",
+    "**/*.test.ts"
   ]
 }

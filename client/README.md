@@ -11,34 +11,6 @@ This application enables:
 
 ---
 
-## 📂 Project Structure
-
-```
-vision-app-client/
-├── src/
-│   ├── components/
-│   │   ├── Vision.vue              # Main Vision Component (Controller)
-│   │   ├── CameraControls.vue      # Start/Stop Camera
-│   │   ├── DetectionResults.vue    # Display Detection Output
-│   │   ├── ImageCapture.vue        # Capture Image (Training & Detection)
-│   │   ├── ModeSwitch.vue          # Toggle Detection/Training Mode
-│   ├── store/                      # Pinia store for state management
-│   ├── plugins/                    # Vuetify and global plugins
-│   ├── main.ts                     # Vue app entry point
-│   ├── router/index.ts             # Vue Router configuration
-│   ├── App.vue                     # Root Vue Component
-│   ├── styles/                     # SCSS / CSS styles
-│   ├── utils/LoggerService.ts      # Logging utility
-│   ├── env/                        # Environment Variables
-├── public/
-│   ├── index.html                  # Main HTML file
-├── package.json                    # Dependencies & scripts
-├── pnpm-lock.json                  # Dependencies & scripts
-└── README.md                       # Documentation
-```
-
----
-
 ## 🛠 Setup & Installation
 
 ### 1️⃣ Clone the Repository

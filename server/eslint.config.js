@@ -5,7 +5,7 @@ const eslintPluginImport = require('eslint-plugin-import')
 
 module.exports = [
   {
-    files: ['**/*.ts', '**/*.js'],
+    files: ['**/*.ts', '**/*.js', '**/*.test.ts', '**/*.test.js'],
     ignores: [
       '**/node_modules/**',
       '**/dist/**',

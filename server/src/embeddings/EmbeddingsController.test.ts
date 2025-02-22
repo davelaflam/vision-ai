@@ -1,8 +1,8 @@
 import * as tf from '@tensorflow/tfjs-node'
 import * as mobilenet from '@tensorflow-models/mobilenet'
 
-import EmbeddingController from '@/embeddings'
-import { LoggerService } from '@/services/logger/LoggerService'
+import { LoggerService } from '../services/logger'
+import EmbeddingController from '../embeddings/EmbeddingsController'
 
 // ✅ Properly Mock TensorFlow's loadGraphModel without requireActual
 jest.mock('@tensorflow/tfjs-node', () => ({
@@ -33,7 +33,7 @@ jest.mock('fs', () => ({
 }))
 
 // ✅ Mock LoggerService to avoid console noise
-jest.mock('@/services/logger/LoggerService', () => ({
+jest.mock('../services/logger/LoggerService', () => ({
   LoggerService: {
     info: jest.fn(),
     error: jest.fn(),

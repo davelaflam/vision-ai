@@ -61,5 +61,5 @@ class UtilsController {
   }
 }
 
-const utils = UtilsController.getInstance()
-export default utils
+const utilsController = UtilsController.getInstance()
+export default utilsController

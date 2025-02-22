@@ -4,9 +4,9 @@ import { fetch } from 'undici'
 import * as tf from '@tensorflow/tfjs-node'
 import dotenv from 'dotenv'
 
-import EmbeddingController from '@/embeddings'
-import pineconeController from '@/pinecone'
-import utils from '@/utils'
+import EmbeddingController from '@/embeddings/EmbeddingsController'
+import pineconeController from '@/pinecone/PineconeController'
+import utilsController from '@/utils/UtilsController'
 import { LoggerService } from '@/services/logger/LoggerService'
 
 dotenv.config()
@@ -72,7 +72,7 @@ app.post('/detect', ensureModelLoaded, async (req, res) => {
     LoggerService.info('🛠️ Processing image for detection...')
     LoggerService.debug(`🔍 Image size received: ${data.length} characters`)
 
-    const input = utils.preprocessImage(Buffer.from(data, 'base64'))
+    const input = utilsController.preprocessImage(Buffer.from(data, 'base64'))
     const model = EmbeddingController.getModel()
 
     let predictions: tf.Tensor
@@ -90,7 +90,7 @@ app.post('/detect', ensureModelLoaded, async (req, res) => {
       return res.status(500).json({ error: 'Invalid predictions from model' })
     }
 
-    let embedding = utils.applySoftmax(rawScores[0])
+    let embedding = utilsController.applySoftmax(rawScores[0])
 
     if (embedding.length > pineconeIndexDimensions) embedding = embedding.slice(0, pineconeIndexDimensions)
     if (embedding.length < pineconeIndexDimensions)
@@ -134,7 +134,7 @@ app.post('/train', ensureModelLoaded, async (req, res) => {
     }
 
     const imageBuffer = Buffer.from(data, 'base64')
-    const tensor = utils.preprocessImage(imageBuffer)
+    const tensor = utilsController.preprocessImage(imageBuffer)
     LoggerService.info('✅ Image processed for training.')
 
     let embedding = await EmbeddingController.getFeatureEmbeddings(tensor)

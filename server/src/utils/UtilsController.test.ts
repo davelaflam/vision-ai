@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs-node'
 
-import utils from '@/utils'
+import utilsController from './UtilsController'
 
 jest.mock('@tensorflow/tfjs-node', () => ({
   node: {
@@ -22,7 +22,7 @@ jest.mock('@tensorflow/tfjs-node', () => ({
   scalar: jest.fn(),
 }))
 
-jest.mock('@/services/logger/LoggerService', () => ({
+jest.mock('../services/logger/LoggerService', () => ({
   LoggerService: {
     debug: jest.fn(),
   },
@@ -34,7 +34,7 @@ describe('UtilsController', () => {
       const mockBuffer = Buffer.from([255, 0, 0, 255, 0, 0])
       const mockTensor = 'mockTensor'
 
-      const result = utils.preprocessImage(mockBuffer)
+      const result = utilsController.preprocessImage(mockBuffer)
 
       expect(tf.node.decodeImage).toHaveBeenCalledWith(mockBuffer, 3)
       expect(tf.image.resizeBilinear).toHaveBeenCalled()
@@ -46,7 +46,7 @@ describe('UtilsController', () => {
     it('should apply softmax to logits', () => {
       const logits = [2.0, 1.0, 0.1]
 
-      const result = utils.applySoftmax(logits)
+      const result = utilsController.applySoftmax(logits)
 
       expect(tf.tensor).toHaveBeenCalledWith(logits)
       expect(tf.softmax).toHaveBeenCalled()
@@ -56,8 +56,8 @@ describe('UtilsController', () => {
 
   describe('generateUniqueId()', () => {
     it('should generate a unique ID', () => {
-      const id1 = utils.generateUniqueId()
-      const id2 = utils.generateUniqueId()
+      const id1 = utilsController.generateUniqueId()
+      const id2 = utilsController.generateUniqueId()
 
       expect(id1).not.toEqual(id2)
       expect(typeof id1).toBe('string')
