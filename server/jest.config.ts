@@ -1,6 +1,6 @@
-import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv'; // ✅ Fix the import
 
-// Load environment variables from process.env (set in GitHub Actions)
+// Load environment variables for Jest
 dotenv.config();
 
 export default {
