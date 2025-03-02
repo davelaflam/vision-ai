@@ -1,6 +1,5 @@
-import * as dotenv from 'dotenv'; // ✅ Fix the import
+import * as dotenv from 'dotenv';
 
-// Load environment variables for Jest
 dotenv.config();
 
 export default {
