@@ -2,8 +2,9 @@ jest.spyOn(process, 'exit').mockImplementation(((code?: number) => {
   console.error(`process.exit called with "${code}"`)
 }) as any)
 
-import { PineconeController } from './PineconeController'
 import { LoggerService } from '../services/logger'
+
+import { PineconeController } from './PineconeController'
 
 jest.mock('../services/logger/LoggerService', () => ({
   LoggerService: {

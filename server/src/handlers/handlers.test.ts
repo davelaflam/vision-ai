@@ -27,12 +27,10 @@ jest.mock('@/pinecone/PineconeController', () => {
   }
 })
 
-
 import { Request, Response } from 'express'
 
 import EmbeddingController from '../embeddings/EmbeddingsController'
 import pineconeController from '../pinecone/PineconeController'
-
 import UtilsController from '../utils/UtilsController'
 
 import { handleImage, handleDeleteUser } from './handlers'
