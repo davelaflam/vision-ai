@@ -1,0 +1,111 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ development ]
+
+jobs:
+  frontend-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
+      - name: Install frontend dependencies
+        run: |
+          cd client
+          pnpm install
+
+      - name: Run frontend lint
+        run: |
+          cd client
+          pnpm lint
+
+  backend-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
+      - name: Install backend dependencies
+        run: |
+          cd server
+          pnpm install
+
+      - name: Run backend lint
+        run: |
+          cd server
+          pnpm lint
+
+  backend-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
+      - name: Install backend dependencies
+        run: |
+          cd server
+          pnpm install
+
+      - name: Run backend tests
+        run: |
+          cd server
+          pnpm test
+
+  build:
+    needs: [frontend-lint, backend-lint, backend-test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm build
