@@ -1,3 +1,8 @@
+import * as dotenv from 'dotenv';
+
+// Load environment variables from process.env (set in GitHub Actions)
+dotenv.config();
+
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',

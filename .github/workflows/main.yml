@@ -2,7 +2,7 @@ name: Deploy to Production
 
 on:
   push:
-    branches: [ main ]
+    branches: [ development ]
 
 jobs:
   frontend-lint:
@@ -86,11 +86,14 @@ jobs:
           cd server
           pnpm install
 
+      - name: Export environment variables for Jest
+        run: |
+          echo "PINECONE_INDEX_NAME=${{ secrets.PINECONE_INDEX_NAME }}" >> $GITHUB_ENV
+          echo "PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }}" >> $GITHUB_ENV
+
       - name: Run backend tests
         run: |
           cd server
-          PINECONE_INDEX_NAME=${{ secrets.PINECONE_INDEX_NAME }} \
-          PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }} \
           pnpm test
 
   build:
