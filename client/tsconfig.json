@@ -10,7 +10,7 @@
     /* Vue & TS support */
     "jsx": "preserve",
     "noEmit": true,
-    "types": ["jest", "vue", "vuetify"],
+    "types": ["vue", "vuetify"],
 
     /* Import resolution */
     "moduleResolution": "bundler",
