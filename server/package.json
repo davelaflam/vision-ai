@@ -16,8 +16,8 @@
     "prod:logs": "pnpm start:pm2 && pnpm logs:pm2",
     "prod:stop": "pm2 stop vision-ai-server-app",
     "prod:restart": "pm2 restart vision-ai-server-app",
-    "lint": "eslint . --ignore-pattern node_modules --ignore-pattern dist",
-    "lint:fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --fix .",
+    "lint": "eslint . --ignore-pattern build --ignore-pattern coverage --ignore-pattern ecosystem.config.js --ignore-pattern jest.config.ts",
+    "lint:fix": "eslint . --fix --ignore-pattern build --ignore-pattern coverage --ignore-pattern ecosystem.config.js --ignore-pattern jest.config.ts",
     "test": "NODE_ENV=test PORT=3001 pnpm jest --clearCache && pnpm jest --config jest.config.ts",
     "test:watch": "jest --watch",
     "test:coverage": "pnpm jest --clearCache && jest --coverage"

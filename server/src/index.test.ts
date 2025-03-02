@@ -1,4 +1,4 @@
-import request = require('supertest');
+import request = require('supertest')
 
 import EmbeddingController from './embeddings/EmbeddingsController'
 import pineconeController from './pinecone/PineconeController'

@@ -1,8 +1,3 @@
-const typescriptEslintPlugin = require('@typescript-eslint/eslint-plugin')
-const typescriptEslintParser = require('@typescript-eslint/parser')
-const eslintPluginPrettier = require('eslint-plugin-prettier')
-const eslintPluginImport = require('eslint-plugin-import')
-
 module.exports = [
   {
     files: ['**/*.ts', '**/*.js', '**/*.test.ts', '**/*.test.js'],
@@ -10,6 +5,10 @@ module.exports = [
       '**/node_modules/**',
       '**/dist/**',
       '**/coverage/**',
+      '**/build/**',
+      '**/lcov-report/**',
+      '**/jest.config.ts',
+      '**/ecosystem.config.js',
       '**/.vision-ai/**',
       '**/.DS_Store',
       '**/.env',
@@ -20,22 +19,21 @@ module.exports = [
       '**/package-lock.json',
       '**/package.json',
       '**/requirements.txt',
-      '**/tsconfig*.json',
       '**/vercel.json',
       'eslint.config.js'
     ],
     languageOptions: {
-      parser: typescriptEslintParser,
+      parser: require('@typescript-eslint/parser'),
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.eslint.json'], // ✅ Use only this config
         tsconfigRootDir: process.cwd(),
         sourceType: 'module',
       },
     },
     plugins: {
-      '@typescript-eslint': typescriptEslintPlugin,
-      prettier: eslintPluginPrettier,
-      import: eslintPluginImport
+      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
+      prettier: require('eslint-plugin-prettier'),
+      import: require('eslint-plugin-import')
     },
     rules: {
       "import/order": [
