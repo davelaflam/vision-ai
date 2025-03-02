@@ -100,11 +100,11 @@ jobs:
           pnpm test
 
   build:
-    needs: [frontend-lint, backend-lint, backend-test]
+    needs: [ frontend-lint, backend-lint, backend-test ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [ 20.x ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -117,8 +117,24 @@ jobs:
       - name: Install pnpm globally
         run: npm install -g pnpm
 
-      - name: Install dependencies
-        run: pnpm install
+      # ✅ Install dependencies and build the frontend
+      - name: Install frontend dependencies
+        run: |
+          cd client
+          pnpm install
 
-      - name: Build project
-        run: pnpm build
+      - name: Build frontend
+        run: |
+          cd client
+          pnpm build
+
+      # ✅ Install dependencies and build the backend
+      - name: Install backend dependencies
+        run: |
+          cd server
+          pnpm install
+
+      - name: Build backend
+        run: |
+          cd server
+          pnpm build

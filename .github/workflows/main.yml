@@ -86,10 +86,13 @@ jobs:
           cd server
           pnpm install
 
-      - name: Export environment variables for Jest
+      - name: Ensure model files exist
         run: |
-          echo "PINECONE_INDEX_NAME=${{ secrets.PINECONE_INDEX_NAME }}" >> $GITHUB_ENV
-          echo "PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }}" >> $GITHUB_ENV
+          mkdir -p server/src/models/mobilenet/mobilenet_tfjs
+          if [ ! -f "server/src/models/mobilenet/mobilenet_tfjs/model.json" ]; then
+            echo "Downloading model.json..."
+            curl -o server/src/models/mobilenet/mobilenet_tfjs/model.json https://storage.googleapis.com/tfhub-tfjs-modules/google/mobilenet_v2_100_224/classification/3/model.json
+          fi
 
       - name: Run backend tests
         run: |
@@ -97,11 +100,11 @@ jobs:
           pnpm test
 
   build:
-    needs: [frontend-lint, backend-lint, backend-test]
+    needs: [ frontend-lint, backend-lint, backend-test ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [ 20.x ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -114,8 +117,24 @@ jobs:
       - name: Install pnpm globally
         run: npm install -g pnpm
 
-      - name: Install dependencies
-        run: pnpm install
+      # ✅ Install dependencies and build the frontend
+      - name: Install frontend dependencies
+        run: |
+          cd client
+          pnpm install
 
-      - name: Build project
-        run: pnpm build
+      - name: Build frontend
+        run: |
+          cd client
+          pnpm build
+
+      # ✅ Install dependencies and build the backend
+      - name: Install backend dependencies
+        run: |
+          cd server
+          pnpm install
+
+      - name: Build backend
+        run: |
+          cd server
+          pnpm build
