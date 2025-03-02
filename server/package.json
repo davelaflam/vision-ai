@@ -8,7 +8,6 @@
     "dev": "NODE_ENV=development tsx -r tsconfig-paths/register src/index.ts",
     "clean": "rimraf build",
     "build": "tsc && tsc-alias",
-    "postbuild": "node replace.config.js",
     "start": "node -r tsconfig-paths/register build/index.js",
     "start:pm2": "pm2 start ecosystem.config.js",
     "logs:pm2": "pm2 logs vision-ai-server-app",
@@ -16,8 +15,8 @@
     "prod:logs": "pnpm start:pm2 && pnpm logs:pm2",
     "prod:stop": "pm2 stop vision-ai-server-app",
     "prod:restart": "pm2 restart vision-ai-server-app",
-    "lint": "eslint . --ignore-pattern build --ignore-pattern coverage --ignore-pattern ecosystem.config.js --ignore-pattern jest.config.ts",
-    "lint:fix": "eslint . --fix --ignore-pattern build --ignore-pattern coverage --ignore-pattern ecosystem.config.js --ignore-pattern jest.config.ts",
+    "lint": "eslint . --ignore-pattern build",
+    "lint:fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --fix .",
     "test": "NODE_ENV=test PORT=3001 pnpm jest --clearCache && pnpm jest --config jest.config.ts",
     "test:watch": "jest --watch",
     "test:coverage": "pnpm jest --clearCache && jest --coverage"
