@@ -12,12 +12,10 @@ import * as tf from '@tensorflow/tfjs-node'
 import * as mobilenet from '@tensorflow-models/mobilenet'
 import * as dotenv from 'dotenv'
 
-import { LoggerService } from '../services/logger/LoggerService'
-import EmbeddingController, { EmbeddingController as ECClass } from '../embeddings/EmbeddingsController'
+import { LoggerService } from '../services/logger'
+import { EmbeddingController as ECClass } from '../embeddings/EmbeddingsController'
 
 dotenv.config()
-
-// --- Mock setup ---
 
 jest.mock('@tensorflow/tfjs-node', () => {
   return {
@@ -53,10 +51,8 @@ jest.mock('../services/logger/LoggerService', () => ({
 
 describe('EmbeddingController', () => {
   beforeEach(() => {
-    // Reset modules so the getter re-reads process.env.
     jest.resetModules()
     process.env.USE_CUSTOM_MODEL = 'false'
-    // Clear the singleton instance.
     Reflect.set(ECClass, 'instance', null)
   })
 

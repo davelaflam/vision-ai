@@ -6,7 +6,7 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1' // ✅ Ensures Jest resolves @/ correctly
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   moduleDirectories: ['node_modules', 'src'],
   testMatch: [
@@ -15,7 +15,7 @@ export default {
   ],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/build/', '<rootDir>/dist/'],
   transform: {
-    '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.jest.json' }] // ✅ Ensures Jest uses tsconfig.jest.json
+    '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.jest.json' }]
   },
   verbose: true
 };
