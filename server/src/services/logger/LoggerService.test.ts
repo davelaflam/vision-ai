@@ -1,4 +1,3 @@
-// Mock stringify before importing LoggerService
 jest.mock('safe-stable-stringify', () => ({
   __esModule: true, // Required for proper mocking of ES Modules
   default: jest.fn((data) => JSON.stringify(data)),
@@ -6,7 +5,6 @@ jest.mock('safe-stable-stringify', () => ({
 
 import { LoggerService } from './LoggerService'
 
-// Use require to properly import default export for mocking
 const stringifyMock = require('safe-stable-stringify').default
 
 describe('LoggerService', () => {
@@ -16,7 +14,6 @@ describe('LoggerService', () => {
     jest.spyOn(console, 'log').mockImplementation(() => {})
     jest.spyOn(console, 'error').mockImplementation(() => {})
 
-    // Reset the areDebugLogsOn static property before each test
     LoggerService.areDebugLogsOn = process.env.VERBOSE === 'true'
   })
 

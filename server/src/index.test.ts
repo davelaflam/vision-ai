@@ -5,7 +5,6 @@ import pineconeController from './pinecone/PineconeController'
 
 import { app, loadClassLabels } from './index'
 
-// Mock dependencies
 jest.mock('./embeddings/EmbeddingsController', () => ({
   getModel: jest.fn(),
   useCustomModel: true,
@@ -20,8 +19,6 @@ jest.mock('./utils/UtilsController', () => ({
   preprocessImage: jest.fn().mockReturnValue('mockedTensor'),
   applySoftmax: jest.fn().mockReturnValue([0.1, 0.2, 0.3]),
 }))
-
-// Mock LoggerService to suppress console output during tests
 jest.mock('@/services/logger/LoggerService', () => ({
   LoggerService: {
     info: jest.fn(),
@@ -30,11 +27,10 @@ jest.mock('@/services/logger/LoggerService', () => ({
   },
 }))
 
-// Force testing port and environment
 process.env.PORT = '3001'
 process.env.NODE_ENV = 'test'
 
-let testServer: any // Store the server instance
+let testServer: any
 
 beforeAll(async () => {
   await loadClassLabels()
@@ -44,7 +40,7 @@ beforeAll(async () => {
 })
 
 afterAll((done) => {
-  if (testServer) testServer.close(done) // Close the server properly
+  if (testServer) testServer.close(done)
 })
 
 describe('/train Endpoint', () => {
@@ -54,7 +50,6 @@ describe('/train Endpoint', () => {
 
   it('should return 400 if data, label, or user is missing', async () => {
     const response = await request(app).post('/train').send({})
-
     expect(response.status).toBe(400)
     expect(response.body).toEqual({ error: 'Missing data, label, or user!' })
   })
@@ -95,7 +90,7 @@ describe('/detect Endpoint', () => {
   it('should return 500 if predictions are invalid', async () => {
     ;(EmbeddingController.getModel as jest.Mock).mockReturnValue({
       execute: jest.fn().mockReturnValue({
-        array: jest.fn().mockResolvedValue([]), // Return an empty array
+        array: jest.fn().mockResolvedValue([]),
       }),
     })
 
@@ -151,7 +146,6 @@ describe('/detect Endpoint', () => {
   })
 
   it('should return 500 if an unexpected error occurs', async () => {
-    // Mock getModel to return a valid model to bypass the middleware
     ;(EmbeddingController.getModel as jest.Mock).mockReturnValue({
       execute: jest.fn().mockImplementationOnce(() => {
         throw new Error('Unexpected error!')

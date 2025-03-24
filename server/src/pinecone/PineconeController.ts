@@ -164,7 +164,6 @@ export class PineconeController {
         throw new Error('❌ ERROR: Pinecone Index is undefined.')
       }
 
-      // ✅ Correct Pinecone deletion method (delete all vectors in namespace)
       await this.index.deleteMany({ filter: { user: namespace } })
 
       LoggerService.info('✅ Namespace deleted:', namespace)

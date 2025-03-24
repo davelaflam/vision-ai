@@ -14,7 +14,6 @@ jest.mock('../services/logger/LoggerService', () => ({
   },
 }))
 
-// Move mock variable declarations INSIDE jest.mock()
 jest.mock('@pinecone-database/pinecone', () => {
   // Declare and initialize mocks here
   const mockUpsert = jest.fn()
@@ -68,25 +67,20 @@ describe('PineconeController', () => {
     })
 
     it('should throw error if index is not found', async () => {
-      // Mock listIndexes to always resolve with an empty array
       const mockListIndexes = jest.fn().mockResolvedValue({
         indexes: [], // ❌ Empty array ensures indexName won't be found
       })
 
-      // Override the original method with the mock
       pineconeController['pinecone'].listIndexes = mockListIndexes
 
-      // Force the condition by explicitly setting the indexName to 'test-index'
       pineconeController['indexName'] = 'test-index'
 
-      // Call the method and catch the error manually
       try {
         await pineconeController.initializeIndex()
       } catch (error: any) {
         expect(error.message).toBe(`Pinecone index 'test-index' not found!`)
       }
 
-      // Ensure that the error was actually thrown
       expect(mockListIndexes).toHaveBeenCalled()
     })
   })
