@@ -1,13 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "baseUrl": ".",
-    "esModuleInterop": true,
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
+    "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["jest.config.ts", "src"]
+  "include": ["src"]
 }

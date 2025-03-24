@@ -1,4 +1,3 @@
-// Mock the entire modules at the top
 jest.mock('../utils/UtilsController', () => ({
   __esModule: true,
   default: {
@@ -69,37 +68,19 @@ describe('Handlers', () => {
       const mockEmbedding = Array(768).fill(0.1)
       const mockUniqueId = 'unique-id'
 
-      // ✅ Corrected Here
-      // Explicitly set the expected ID
       const expectedId: string = `${req.body.label}-${mockUniqueId}`
 
-      // ✅ Separate Mock Implementations
-      // Mocking Image Preprocessing
       ;(UtilsController.preprocessImage as jest.Mock).mockReturnValue(mockTensor)
-
-      // Mocking Feature Embedding Extraction
       ;(EmbeddingController.getFeatureEmbeddings as jest.Mock).mockResolvedValue(mockEmbedding)
-
-      // Mocking Unique ID Generation
       ;(UtilsController.generateUniqueId as jest.Mock).mockReturnValue(mockUniqueId)
 
-      // Ensure saveEmbedding is properly mocked and tracked
       const saveEmbeddingMock = pineconeController.saveEmbedding as jest.Mock
       saveEmbeddingMock.mockResolvedValue(true)
 
-      // Add Debugging Logs
-      console.log('Calling handleImage...')
-      console.log('Expected ID:', expectedId)
-
       await handleImage(req as Request, res as Response)
 
-      // Assert Calls and Parameters
       expect(UtilsController.preprocessImage).toHaveBeenCalledWith(expect.any(Buffer))
       expect(EmbeddingController.getFeatureEmbeddings).toHaveBeenCalledWith(mockTensor)
-
-      // Add Debugging Logs
-      console.log('saveEmbeddingMock.mock.calls:', saveEmbeddingMock.mock.calls)
-
       expect(saveEmbeddingMock).toHaveBeenCalledWith([
         {
           id: expectedId,

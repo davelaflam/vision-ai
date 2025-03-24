@@ -133,7 +133,6 @@ export class LoggerService {
    * @private
    */
   private static async _logData(data: string | object | [] | undefined | null = {}): Promise<boolean> {
-    // Check for empty object, empty array, undefined, or null
     if (
       data === undefined ||
       data === null ||
