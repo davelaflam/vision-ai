@@ -1,10 +1,8 @@
 import js from '@eslint/js'
 import ts from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
 import vue from 'eslint-plugin-vue'
 import prettier from 'eslint-plugin-prettier'
 import importPlugin from 'eslint-plugin-import'
-import prettierConfig from 'eslint-config-prettier'
 import vueParser from 'vue-eslint-parser'
 
 export default [

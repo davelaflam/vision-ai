@@ -36,7 +36,6 @@ export const handleImage = async (req: any, res: any) => {
     let embedding = await EmbeddingController.getFeatureEmbeddings(tensor)
     LoggerService.info('✅ Extracted Feature Embedding Size:', JSON.stringify(embedding.length))
 
-    // 🚨 Ensure embeddings are 768 dimensions (truncate or pad if needed)
     if (embedding.length > pineconeIndexDimensions) {
       embedding = embedding.slice(0, pineconeIndexDimensions)
     } else if (embedding.length < pineconeIndexDimensions) {
