@@ -73,8 +73,6 @@ pnpm dev
 By default, the frontend runs on **[http://localhost:5173](http://localhost:5173)**  
 The backend runs on **[http://localhost:3000](http://localhost:8080)**
 
-<img src="server/docs/images/visionAI-detection.png" alt="VisionAI-Detection" width="300">
-
 ---
 
 ## 🎯 Usage With ngrok
